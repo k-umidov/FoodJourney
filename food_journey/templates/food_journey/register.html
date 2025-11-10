@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<div class="d-flex justify-content-center" style="margin-top:100px;">
+    <div class="col-5 ">
+        <div class="card text-light bg-dark border-light p-3">
+            <h4 class="text-center">Регистрация</h4>
+            <div class="card-body">
+                <form action="{% url 'register' %}" method="post">
+                       {% csrf_token %}
+                       {{ form.as_p }}
+                    <button class="btn btn-success w-100" type="submit">Зарегистрироваться</button>
+                    <hr>
+                    <small>Уже есть аккаунт?</small>
+                    <a href="{% url 'login' %}" class="btn btn-primary w-100 mt-2">Войти</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

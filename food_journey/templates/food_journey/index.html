@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<div class="d-flex justify-content-between col-12 py-5">
+
+    <div class="col-8">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for dish in dishes %}
+            <div class="col">
+                <div class="card h-100 bg-dark">
+                    <a href="{% url 'detail' dish.pk %}">
+                        <img src="{{ dish.photo.url }}" class="border-rounded" height="270px" width="270px" alt="...">
+                    </a>
+                    <div class="card-body text-light border-light">
+                        <a href="{% url 'detail' dish.pk %}" style="text-decoration:none">
+                            <h5 class="card-title text-light">{{ dish.name_of_the_dish }}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="col-3">
+        <div class="list-group border-light">
+            <a href="{% url 'main' %}" class="list-group-item list-group-item-action  text-light"
+               aria-current="true">
+                Все блюда
+            </a>
+            {% for cat in categories %}
+            <a href="{% url 'category' cat.id %}" class="list-group-item list-group-item-action text-light"
+               aria-current="true">
+                {{ cat.title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock main %}
+

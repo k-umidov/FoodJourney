@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="d-flex justify-content-center col-12 py-5">
+    <div class="col-10">
+        <div class="d-flex profile_info text-light">
+            <div class="profile_photo text-center">
+                <h3>{{ profile.user.username }}</h3>
+                <img src="{{ profile.get_photo }}" alt="" height="200" width="200" class="rounded-circle">
+            </div>
+            <div class="mx-5 profile_detail text-light">
+                <div class="info d-flex flex-column mt-4 fs-5">
+                    <p>Имя: {{ profile.user.first_name }}</p>
+                    <p>Фамилия: {{ profile.user.last_name }}</p>
+                    <p>Почта: {{ profile.user.email }}</p>
+                    <p>Количество комментарии: {{ profile.count_comment }}</p>
+                    <p>Дата регистрации: {{ profile.user.date_joined }}</p>
+                    <p>Место нахождения: {% if profile.location %} {{ profile.location }} {% endif %}</p>
+                    <p>О себе:  {% if profile.about %} {{ profile.about }} {% endif %}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="change_profile my-5 p-3">
+            <div class="mb-3">
+                <button class="btn glass-btn w-100 text-light text-start px-3 py-2" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseHistory"
+                        aria-expanded="false" aria-controls="collapseHistory">
+                    Редактировать профиль
+                </button>
+                <div class="collapse " id="collapseHistory">
+                    <div class="p-3 text-light account_form">
+                        <form action="{% url 'edit' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ account_form.as_p }}
+                            {{ profile_form.as_p }}
+                            <button class="btn btn__des" type="submit">Изменить</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+</div>
+{% endblock main %}

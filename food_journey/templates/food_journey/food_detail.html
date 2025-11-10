@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<div class="container py-4">
+    <div class="row gy-5">
+
+        <!-- Основной контент -->
+        <div class="col-12 col-lg-9">
+
+            <!-- Информация о блюде -->
+            <div class="food_info glass-card p-4 rounded-4 shadow-lg d-flex flex-column flex-md-row align-items-center align-items-md-start">
+                <div class="food_photo mb-4 mb-md-0">
+                    <img src="{{ food.photo.url }}" alt="{{ food.name_of_the_dish }}"
+                         class="rounded-4 shadow img-fluid" style="max-width: 300px;">
+                </div>
+                <div class="ms-md-5 text-light text-center text-md-start mt-md-0 mt-3">
+                    <h3 class="fw-bold">{{ food.name_of_the_dish }}</h3>
+                    <div class="info d-flex flex-column mt-4 fs-5">
+                        <p>Название кухни: {{ food.cuisine }}</p>
+                        <p>Дата добавления: {{ food.created_at }}</p>
+                        <p>Время приготовления: {{ food.cooking_time }} минут</p>
+                        <p>Ингредиенты: {{ food.ingredients }}</p>
+                        <p>Калорийность: {{ food.calories }} кк</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- История и описание -->
+            <div class="description my-5 p-3 glass-card rounded-4 shadow">
+                <div class="mb-3">
+                    <button class="btn glass-btn w-100 text-light text-start px-3 py-2" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseHistory"
+                            aria-expanded="false" aria-controls="collapseHistory">
+                        Читать историю блюда
+                    </button>
+                    <div class="collapse mt-3" id="collapseHistory">
+                        <div class="card card-body glass-inner text-light border-0">
+                            <p class="mb-0">{{ food.history|linebreaks }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn glass-btn w-100 text-light text-start px-3 py-2" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseDescription"
+                            aria-expanded="false" aria-controls="collapseDescription">
+                        Читать описание блюда
+                    </button>
+                    <div class="collapse mt-3" id="collapseDescription">
+                        <div class="card card-body glass-inner text-light border-0">
+                            <p class="mb-0">{{ food.description|linebreaks }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Видео -->
+            <div class="trailer glass-card p-3 rounded-4 shadow-lg">
+                <h4 class="text-light mb-3 text-center text-md-start">🎥 Видео приготовления блюда</h4>
+                <div class="ratio ratio-16x9">
+                    <iframe src="{{ food.trailer }}" title="{{ food.name_of_the_dish }}"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Рекомендуемые блюда -->
+            <div class="same_food mt-5">
+                <h4 class="text-light my-4 text-center text-md-start">Рекомендуемые блюда:</h4>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    {% for dish in same_dishes %}
+                    <div class="col">
+                        <div class="card glass-card h-100 text-light rounded-4 shadow">
+                            <a href="{% url 'detail' dish.pk %}">
+                                <img src="{{ dish.photo.url }}" class="rounded-top-4 img-fluid" alt="{{ dish.name_of_the_dish }}">
+                            </a>
+                            <div class="card-body text-light text-center">
+                                <a href="{% url 'detail' dish.pk %}" class="text-decoration-none">
+                                    <h5 class="card-title text-light">{{ dish.name_of_the_dish }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Комментарии -->
+            {% if request.user.is_authenticated %}
+            <div class="comment_block mt-5 text-light">
+                <h4>Комментарии</h4>
+                <form action="{% url 'save_comment' food.pk %}" method="post" class="mt-3">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success" type="submit">Отправить</button>
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="comment_list mt-4">
+                {% for comment in comments %}
+                <div class="comment p-3 border-light text-light mb-3 rounded-3 glass-card">
+                    <div class="d-flex align-items-start">
+                        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nDtbpJihQP-5aDrHvx2pD01X1KcDmRSsT160JcXdK3LQ=s900-c-k-c0x00ffffff-no-rj"
+                             alt="avatar" width="50" height="50" class="rounded-circle me-3">
+                        <div>
+                            <h6 class="mb-1">{{ comment.author.username }} <small class="text-muted">{{ comment.created_at }}</small></h6>
+                            <p class="mb-0">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Категории -->
+        <div class="col-12 col-lg-3">
+            <div class="list-group glass-card border-0 rounded-4 shadow">
+                <a href="{% url 'main' %}" class="list-group-item glass-list text-light fw-semibold">
+                    Все блюда
+                </a>
+                {% for cat in categories %}
+                <a href="{% url 'category' cat.id %}" class="list-group-item glass-list text-light">
+                    {{ cat.title }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock main %}
