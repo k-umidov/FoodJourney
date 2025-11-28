@@ -26,6 +26,9 @@ Frontend: HTML, CSS, Bootstrap
 Database: SQLite (default)
 
 Image processing: Pillow
+Screenshot of the page:
+![Screenshot](./Снимок экрана 2025-11-28 155131.png)
+
 
 🚀 How to Run the Food Journey Server
 
