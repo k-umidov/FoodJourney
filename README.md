@@ -10,7 +10,18 @@ The project helps you keep a personal food journal with photos, descriptions, an
 📝 Adding and editing dish information
 
 🔍 Detailed dish page
+💬 Comments & Video Tutorials
 
+The project also includes an additional feature where users can:
+
+Leave comments under each dish
+This allows users to share their thoughts, feedback, suggestions, or personal experiences related to the dish.
+
+Watch cooking videos
+Each dish can include a link to a YouTube cooking video or any other video tutorial.
+This makes it easier for users to learn how the dish is prepared and follow step-by-step instructions.
+
+This improves user engagement and makes the Food Journey project more interactive and helpful.
 🎨 Responsive interface (Bootstrap)
 
 🗂 Dish categories
