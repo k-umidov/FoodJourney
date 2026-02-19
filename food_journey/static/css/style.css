@@ -406,3 +406,10 @@ h4 {
 .comment_form button:hover {
     box-shadow: 0 5px 15px rgba(40, 167, 69, 0.6);
 }
+
+@media (max-width: 768px) {
+    .card img {
+        width: 100% !important;
+        height: auto !important;
+    }
+}

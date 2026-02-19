@@ -26,6 +26,20 @@
                     <a class="nav-link active text-light" aria-current="page" href="{% url 'about' %}">О сайте</a>
                 </li>
 
+                {% if categories %}
+                <li class="nav-item dropdown d-md-none">
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Список кухонь
+                    </a>
+                    <ul class="dropdown-menu glass-dropdown">
+                        {% for cat in categories %}
+                        <li><a class="dropdown-item text-light" href="{% url 'category' cat.id %}">{{ cat.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endif %}
+
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
